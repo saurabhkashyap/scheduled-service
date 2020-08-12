@@ -1,10 +1,13 @@
 const exp = {}
 
 const request = require('request')
+const { ClientBase } = require('pg')
+require('dotenv').config()
 
 exp.sent = (from, to, subject, content) => {
     return new Promise((resolve, reject) => {
-        request.post(`http://127.0.0.1:8808/email/custom`, {
+        console.log(process.env.URL_EMAIL)
+        request.post(`http://${process.env.URL_EMAIL}/email/custom`, {
             json: {
                 to: to,
                 from: from,
