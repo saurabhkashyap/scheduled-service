@@ -45,7 +45,7 @@ const emailBilling = ({
             listBank += `<tr>
                 <td>
                 <br>
-                <img src="https://email-arkademy.s3-ap-southeast-1.amazonaws.com/logo/bri.png" alt="">
+                <img src="https://bank-photos.s3.amazonaws.com/logo_BRI_25px.png" alt="">
                 </td>
                 <td>
                 <p class="text-silver">
