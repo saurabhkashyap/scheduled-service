@@ -17,6 +17,7 @@ const invoiceSpecificOptions = {};
 const i = new Invoice(invoiceSpecificOptions);
 
 exp.initiateNewBilling = async () => {
+    console.log('RUN INITIATE NEW BILLING')
     const listTalent = await query(`SELECT *, (
         SELECT monthly_bill::money::numeric::float8 FROM bootcamp.camp_duration WHERE id_camp_duration = t.id_camp_duration
     ) FROM hiring.talent AS t where status_talent IN ('work', 'pay cut') AND email = 'agungwar00@gmail.com'`, [], 'arkademy').then(result => {
@@ -24,6 +25,8 @@ exp.initiateNewBilling = async () => {
     }).catch(error => {
         // console.log(error)
     })
+
+    console.log(listTalent)
 
     let q = async.queue(async (task) => {
         const random = randomstring.generate(5)
@@ -34,6 +37,7 @@ exp.initiateNewBilling = async () => {
                 // scheduleTask.billingQueue.add(result, {
                 //     delay: moment(`${monthYear}-${task.pay_day} 10:00:00`).valueOf() - moment().valueOf()
                 // })
+                console.log(result)
                 scheduleTask.billingQueue.add(result, {
                     delay: 2000
                 })

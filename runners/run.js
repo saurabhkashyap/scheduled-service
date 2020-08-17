@@ -1,4 +1,4 @@
 const { initiateNewBilling } = require("../src/models/billing");
-// const scheduler = require('../src/helpers/scheduleTask')
-initiateNewBilling()
+const { runNewBilling } = require('../src/helpers/scheduleTask')
 
+runNewBilling

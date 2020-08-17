@@ -1,6 +1,6 @@
 const exp = {}
 const schedule = require('node-schedule')
-const { initiateNewBilling } = require('../models/billing')
+// const { initiateNewBilling } = require('../models/billing')
 
 const Queue = require('bull')
 
@@ -16,6 +16,7 @@ const runNewBilling = schedule.scheduleJob({
     minute: 00,
     date: 1
 }, () => {
+    const { initiateNewBilling } = require('../models/billing')
     initiateNewBilling()
 })
 
@@ -71,5 +72,6 @@ function formatRupiah(angka){
 
 
 module.exports = {
-    billingQueue
+    billingQueue,
+    runNewBilling
 }
