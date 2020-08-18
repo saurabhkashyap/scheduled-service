@@ -3,6 +3,7 @@ const schedule = require('node-schedule')
 // const { initiateNewBilling } = require('../models/billing')
 
 const Queue = require('bull')
+const { aggregate } = require('./databases/mongodb')
 
 const billingQueue = new Queue('ISA Billing', {
     redis: {
@@ -11,19 +12,54 @@ const billingQueue = new Queue('ISA Billing', {
     }
 })
 
+const reminderQueue = new Queue('ISA REMINDER', {
+    redis: {
+        port: process.env.REDIS_PORT,
+        host: process.env.REDIS_HOST,
+    }
+})
+
 const runNewBilling = schedule.scheduleJob({
-    hour: 10,
-    minute: 00,
-    date: 1
+    hour: 23,
+    minute: 12,
+    date: 18
 }, () => {
     const { initiateNewBilling } = require('../models/billing')
     initiateNewBilling()
 })
 
-const runPaymentReminder = schedule.scheduleJob({
-    hour: 10,
-    minute: 00,
-    date: [24, 1, 3, 7]
+const runPaymentReminder = () => {
+    const { createReminderDate } = require('../models/reminder')
+
+    aggregate('reminder', [
+        
+    ], 'arkademy').then(result => {
+        let dates = []
+        result.forEach(value => {
+            try {
+                const date = parseInt(value.listReminder)
+                dates.push(date)
+            } catch (error) {
+                
+            }
+        })
+        schedule.scheduleJob({
+            hour: 10,
+            minute: 00,
+            date: dates
+        }, () => {
+            // const { initiateNewBilling } = require('../models/billing')
+            // initiateNewBilling()
+            createReminderDate()
+        })
+    }).catch(error => {
+        Sentry.captureException('Get Billing Reminder', error);
+        return reject(error)
+    })
+}
+
+reminderQueue.process(async job => {
+    data = job.data
 })
 
 billingQueue.process(async job => {
@@ -73,5 +109,6 @@ function formatRupiah(angka){
 
 module.exports = {
     billingQueue,
-    runNewBilling
+    runNewBilling,
+    runPaymentReminder
 }

@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const { runNewBilling } = require('./src/helpers/scheduleTask')
 
 require('dotenv').config()
 
@@ -26,7 +27,7 @@ app.use(function(req, res, next) {
   next(createError(404));
 });
 
-require('./runners/scheduler')
+// require('./runners/scheduler')
 
 // error handler
 app.use(function(err, req, res, next) {
@@ -38,5 +39,9 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+// Run Reminder
+
+runNewBilling
 
 module.exports = app;

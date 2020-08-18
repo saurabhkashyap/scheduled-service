@@ -26,24 +26,30 @@ exp.initiateNewBilling = async () => {
         // console.log(error)
     })
 
-    console.log(listTalent)
+    // console.log(listTalent)
 
     let q = async.queue(async (task) => {
         const random = randomstring.generate(5)
         const monthYear = moment().format('YYYY-MM')
         const idBilling = `INV/${task.batch}/${random}/${moment().format('MM')}/${moment().format('YYYY')}`
         checkTalentBilling(task.id_talent, task.pay_day).then(result => {
-            insertToDatabase(idBilling, task.id_talent, task.monthly_bill, `${monthYear}-${task.pay_day}`, moment(`${monthYear}-${task.pay_day}`).add(30, 'days')).then(result => {
-                // scheduleTask.billingQueue.add(result, {
-                //     delay: moment(`${monthYear}-${task.pay_day} 10:00:00`).valueOf() - moment().valueOf()
-                // })
-                console.log(result)
+            if (result === null) {
+                insertToDatabase(idBilling, task.id_talent, task.monthly_bill, `${monthYear}-${task.pay_day}`, moment(`${monthYear}-${task.pay_day}`).add(30, 'days')).then(result => {
+                    // scheduleTask.billingQueue.add(result, {
+                    //     delay: moment(`${monthYear}-${task.pay_day} 10:00:00`).valueOf() - moment().valueOf()
+                    // })
+                    // console.log(result)
+                    scheduleTask.billingQueue.add(result, {
+                        delay: 2000
+                    })
+                }).catch(error => {
+                    console.log(error)
+                })
+            } else {
                 scheduleTask.billingQueue.add(result, {
                     delay: 2000
                 })
-            }).catch(error => {
-                console.log(error)
-            })
+            }
         }).catch(error => {
             // console.log(error)
         })
@@ -61,9 +67,9 @@ const checkTalentBilling = (id_talent, pay_day) => {
     return new Promise(async (resolve, reject) => {
         await query(`SELECT * FROM finance.billing WHERE id_talent = ${id_talent} AND billed_on::text LIKE '%${monthYear}-${pay_day}%'`, [], 'arkademy').then(result => {
             if (result.rowCount > 0) {
-                return reject()
+                return resolve(result.rows[0])
             }
-            return resolve()
+            return resolve(null)
         }).catch(error => {
             console.log(error)
             return reject(error)
@@ -93,7 +99,7 @@ exp.createInvoice = ({id_billing, id_talent, amount, billed_on, due_date}) => {
         i.createInvoice({
             externalID: id_billing,
             payerEmail: datalTalent.email,
-            description: `Pembayaran ISA ke ${countISABilling+1} a/n ${datalTalent.realname}`,
+            description: `Pembayaran ISA ke ${countISABilling} a/n ${datalTalent.realname}`,
             amount: amount,
             // shouldSendEmail: true,
             invoiceDuration: 2592000
