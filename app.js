@@ -3,11 +3,12 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const { runNewBilling } = require('./src/helpers/scheduleTask')
+// const { runNewBilling } = require('./src/helpers/scheduleTask')
 
 require('dotenv').config()
 
 var indexRouter = require('./routes/index');
+const { runSentBillingToday } = require('./src/models/billing');
 
 var app = express();
 
@@ -40,8 +41,6 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-// Run Reminder
-
-runNewBilling
+runSentBillingToday()
 
 module.exports = app;

@@ -1,6 +1,5 @@
 const postgresqlExport = {}
 const pg = require('pg')
-require('dotenv').config()
 
 postgresqlExport.query = (query, value, db) => {
     const pool = new pg.Pool({
