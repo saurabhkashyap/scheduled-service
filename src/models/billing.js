@@ -28,12 +28,8 @@ exp.runSentBillingToday = () => {
             return reject(error)
         })
 
-        console.log('Get Data Success')
-
         let queue = async.queue(async (task) => {
-            console.log('generate Random Code')
             const randomCode = cryptoRandomString({length: 10})
-            console.log('generate id Billing')
             const idBilling = `INV/${task.real_batch}/${randomCode}/${moment().format('MM')}/${moment().format('YYYY')}`
 
             console.log(idBilling)
