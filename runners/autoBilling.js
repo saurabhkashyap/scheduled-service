@@ -3,7 +3,7 @@ const { sentReminder } = require('../src/models/reminder');
 
 const cron = require('cron').CronJob;
 
-const job = new cron('0 10 25 * *', () => {
+const job = new cron('0 10 02 * *', () => {
     runSentBillingToday()
 })
 
