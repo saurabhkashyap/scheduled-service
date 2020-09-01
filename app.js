@@ -8,7 +8,7 @@ var logger = require('morgan');
 require('dotenv').config()
 
 var indexRouter = require('./routes/index');
-const { runSentBillingToday } = require('./src/models/billing');
+const runner = require('./runners/autoBilling')
 
 var app = express();
 
@@ -41,6 +41,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-runSentBillingToday()
+runner.job.start
+runner.reminder.start
 
 module.exports = app;
