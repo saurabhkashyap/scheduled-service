@@ -11,7 +11,8 @@ const { emailBilling } = require('./email')
 const { sent } = require('../helpers/email')
 
 const x = new Xendit({
-    secretKey: 'xnd_development_5pHeCBV0Bf4YyfllOQih43OcUwcEwB3Fdwcmlsv9Epa36j5rtbYCsuFqKgFI1ur'
+    // secretKey: 'xnd_development_5pHeCBV0Bf4YyfllOQih43OcUwcEwB3Fdwcmlsv9Epa36j5rtbYCsuFqKgFI1ur'
+    secretKey: process.env.XENDIT_KEY
 })
 
 const { Invoice } = x;
