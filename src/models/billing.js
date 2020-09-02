@@ -23,7 +23,7 @@ const i = new Invoice(invoiceSpecificOptions);
 exp.runSentBillingToday = () => {
     return new Promise(async (resolve, reject) => {
         console.log('Starting')
-        const dataTalent = await query(`SELECT *, (SELECT batch FROM bootcamp.batch WHERE id_batch = talent.id_batch) AS real_batch FROM hiring.talent WHERE  status_talent = 'work' AND status_payment IN ('active', 'paycut') AND email = 'agungwar00@gmail.com'`, [], 'arkademy').then(result => {
+        const dataTalent = await query(`SELECT *, (SELECT batch FROM bootcamp.batch WHERE id_batch = talent.id_batch) AS real_batch FROM hiring.talent WHERE  status_talent = 'work' AND status_payment IN ('active', 'paycut') AND email IN('agungwar00@gmail.com', 'alfa.putrakurnia@gmail.com', 'alden.hari@gmail.com')'`, [], 'arkademy').then(result => {
             return result.rows
         }).catch(error => {
             return reject(error)
