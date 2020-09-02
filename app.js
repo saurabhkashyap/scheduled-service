@@ -41,7 +41,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-runner.job.start
-runner.reminder.start
+runner.job.start()
+runner.reminder.start()
 
 module.exports = app;
