@@ -444,7 +444,7 @@ const emailBilling = ({
                           Klik button dibawah untuk mengirim bukti transfer dan jangan lupa tulis nama lengkapmu di bukti transfer.
                         </p>
                         <br>
-                        <a href="#" class="button button--primary button--block">
+                        <a href="https://arkademy.com/upload-bukti-pembayaran/${id_billing}" class="button button--primary button--block">
                           Kirim Bukti Transfer
                         </a>
                       </td>
