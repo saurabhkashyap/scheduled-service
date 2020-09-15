@@ -19,6 +19,7 @@ exp.sent = (from, to, subject, content) => {
                 return reject(err)
             }
             return resolve({
+                id_email: body[0].meta.messageId,
                 email: body,
                 content: content
             })

@@ -33,8 +33,6 @@ exp.runSentBillingToday = () => {
             const randomCode = cryptoRandomString({length: 10})
             const idBilling = `INV/${task.real_batch}/${randomCode}/${moment().format('MM')}/${moment().format('YYYY')}`
 
-            console.log(idBilling)
-
             let monthlyBill = 0
             if (task.status_payment === 'paycut') {
                 monthlyBill = await getMonthlyPayCutLastHistory(task.id_talent)
@@ -68,7 +66,14 @@ exp.runSentBillingToday = () => {
                         invoice_url: dataInvoice.invoice_url
                     })
                     console.log('Sent Email')
-                    await sent('Finance Arkademy <finance@arkademy.com>', [task.email], `Income Sharing Agreement (Tagihan Tanggal: ${moment().format('DD MMMM YYYY')})`, email)
+                    const dataEmail = await sent('Finance Arkademy <finance@arkademy.com>', [task.email], `Income Sharing Agreement (Tagihan Tanggal: ${moment().format('DD MMMM YYYY')})`, email)
+                    await insertEmailData({
+                        id_email: dataEmail.id_email,
+                        id_billing: id_billing,
+                        to: task.email,
+                        from: 'Finance Arkademy <finance@arkademy.com>',
+                        content: email
+                    })
                 }).catch(error => {
                     
                 })
@@ -146,6 +151,22 @@ const insertDataBillingToInvoice = (id_billing, amount, id_talent, payment_infor
         }).catch(error => {
             console.log(error)
             return reject()
+        })
+    })
+}
+
+const insertEmailData = ({
+    id_email,
+    id_billing,
+    to,
+    from,
+    content
+}) => {
+    return new Promise((resolve, reject) => {
+        query(`INSERT INTO ark_email.email_billing (id_email, id_billing, receiver, sender, content) VALUES($1, $2, $3, $4, $5)`, [id_email, id_billing, to, from, content], 'arkademy').then(result => {
+            return resolve()
+        }).catch(err => {
+            return reject(err)
         })
     })
 }
