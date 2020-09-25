@@ -45,8 +45,6 @@ exp.runSentBillingToday = () => {
 
             let dataInvoice = null
 
-            console.log(task.realname)
-
             if (monthlyBill !== 0) {
                 dataInvoice = await createInvoice(idBilling, task.email, monthlyBill, task.realname)
             }
