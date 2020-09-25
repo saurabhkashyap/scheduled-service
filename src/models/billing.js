@@ -23,7 +23,7 @@ const i = new Invoice(invoiceSpecificOptions);
 exp.runSentBillingToday = () => {
     return new Promise(async (resolve, reject) => {
         console.log('Starting')
-        const dataTalent = await query(`SELECT * FROM (SELECT *, (SELECT batch FROM bootcamp.batch WHERE id_batch = talent.id_batch) AS real_batch FROM hiring.talent WHERE  status_talent = 'work' AND status_payment IN ('active', 'paycut')) AS data WHERE real_batch IN ('8', '9')`, [], 'arkademy').then(result => {
+        const dataTalent = await query(`SELECT * FROM (SELECT *, (SELECT batch FROM bootcamp.batch WHERE id_batch = talent.id_batch) AS real_batch FROM hiring.talent WHERE  status_talent = 'work' AND status_payment IN ('active', 'paycut')) AS data WHERE real_batch IN ('8', '9') and email = 'agungwar00@gmail.com'`, [], 'arkademy').then(result => {
             return result.rows
         }).catch(error => {
             return reject(error)
@@ -166,6 +166,7 @@ const insertEmailData = ({
         query(`INSERT INTO ark_email.email_billing (id_email, id_billing, receiver, sender, content) VALUES($1, $2, $3, $4, $5)`, [id_email, id_billing, to, from, content], 'arkademy').then(result => {
             return resolve()
         }).catch(err => {
+            console.log(err)
             return reject(err)
         })
     })
