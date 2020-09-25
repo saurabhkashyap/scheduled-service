@@ -76,7 +76,7 @@ const emailBilling = ({
             listBank += `<tr>
                 <td>
                 <br>
-                <img src="" alt="">
+                <img src="https://email-arkademy.s3-ap-southeast-1.amazonaws.com/logo/permata.png" alt="">
                 </td>
                 <td>
                 <p class="text-silver">
@@ -589,7 +589,7 @@ const emailReminder = ({
             listBank += `<tr>
                 <td>
                 <br>
-                <img src="" alt="">
+                <img src="https://email-arkademy.s3-ap-southeast-1.amazonaws.com/logo/permata.png" alt="">
                 </td>
                 <td>
                 <p class="text-silver">
