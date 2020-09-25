@@ -6,7 +6,6 @@ require('dotenv').config()
 
 exp.sent = (from, to, subject, content) => {
     return new Promise((resolve, reject) => {
-        console.log(process.env.URL_EMAIL)
         request.post(`http://${process.env.URL_EMAIL}/email/custom`, {
             json: {
                 to: to,
@@ -18,8 +17,6 @@ exp.sent = (from, to, subject, content) => {
             if (err !== null) {
                 return reject(err)
             }
-
-            console.log(body[0])
             return resolve({
                 id_email: body[0].meta.messageId,
                 email: body,
