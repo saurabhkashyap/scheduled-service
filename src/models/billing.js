@@ -90,7 +90,7 @@ exp.runSentBillingToday = () => {
 
 const getMonthlyPayCutLastHistory = (id_talent) => {
     return new Promise((resolve, reject) => {
-        query(`SELECT * FROM hiring.talent_histories WHERE id_talent = $1`, [id_talent], 'arkademy').then((result) => {
+        query(`SELECT * FROM hiring.talent_histories WHERE id_talent = $1 AND status = 'paycut' ORDER BY created_at DESC`, [id_talent], 'arkademy').then((result) => {
             if (result.rowCount > 0) {
                 try {
                     return resolve(result.rows[0].information.new_monthly_bill)
