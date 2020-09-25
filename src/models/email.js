@@ -589,7 +589,7 @@ const emailReminder = ({
             listBank += `<tr>
                 <td>
                 <br>
-                <img src="https://email-arkademy.s3-ap-southeast-1.amazonaws.com/logo/mandiri.png" alt="">
+                <img src="https://email-arkademy.s3-ap-southeast-1.amazonaws.com/logo/permata-bank.jpeg" alt="">
                 </td>
                 <td>
                 <p class="text-silver">
