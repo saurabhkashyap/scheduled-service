@@ -18,6 +18,8 @@ exp.sent = (from, to, subject, content) => {
             if (err !== null) {
                 return reject(err)
             }
+
+            console.log(body[0])
             return resolve({
                 id_email: body[0].meta.messageId,
                 email: body,
