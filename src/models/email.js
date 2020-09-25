@@ -76,6 +76,7 @@ const emailBilling = ({
             listBank += `<tr>
                 <td>
                 <br>
+                
                 <img src="https://email-arkademy.s3-ap-southeast-1.amazonaws.com/logo/permata.png" alt="">
                 </td>
                 <td>
