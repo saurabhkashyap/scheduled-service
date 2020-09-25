@@ -67,6 +67,14 @@ exp.runSentBillingToday = () => {
                     })
                     console.log('Sent Email')
                     const dataEmail = await sent('Finance Arkademy <finance@arkademy.com>', [task.email], `Income Sharing Agreement (Tagihan Tanggal: ${moment().format('DD MMMM YYYY')})`, email)
+
+                    console.log({
+                        id_email: dataEmail.id_email,
+                        id_billing: id_billing,
+                        to: task.email,
+                        from: 'Finance Arkademy <finance@arkademy.com>',
+                        content: email
+                    })
                     await insertEmailData({
                         id_email: dataEmail.id_email,
                         id_billing: id_billing,
@@ -140,7 +148,7 @@ const createInvoice = (id_billing, email_talent, amount, fullname) => {
 
 const insertDataBillingToInvoice = (id_billing, amount, id_talent, payment_information, billed_on) => {
     return new Promise((resolve, reject) => {
-        console.log([id_billing, amount, id_talent, payment_information])
+        // console.log([id_billing, amount, id_talent, payment_information])
         query(`INSERT INTO finance.billing (id_billing, amount, billed_on, id_talent, payment_information) VALUES($1, $2, $3, $4, $5)`, [id_billing, amount, billed_on, id_talent, payment_information], 'arkademy')
         .then((result) => {
             if (result.rowCount > 0) {
@@ -164,6 +172,7 @@ const insertEmailData = ({
 }) => {
     return new Promise((resolve, reject) => {
         query(`INSERT INTO ark_email.email_billing (id_email, id_billing, receiver, sender, content) VALUES($1, $2, $3, $4, $5)`, [id_email, id_billing, to, from, content], 'arkademy').then(result => {
+            console.log(result.rowCount)
             return resolve()
         }).catch(err => {
             console.log(err)
