@@ -66,15 +66,14 @@ exp.runSentBillingToday = () => {
                         invoice_url: dataInvoice.invoice_url
                     })
                     console.log('Sent Email')
-                    const dataEmail = await sent('Finance Arkademy <finance@arkademy.com>', [task.email], `Income Sharing Agreement (Tagihan Tanggal: ${moment().format('DD MMMM YYYY')})`, email).then(async result => {
-                        console.log(result)
-                        await insertEmailData({
-                            id_email: result.id_email,
-                            id_billing: id_billing,
-                            to: task.email,
-                            from: 'Finance Arkademy <finance@arkademy.com>',
-                            content: email
-                        })
+                    const dataEmail = await sent('Finance Arkademy <finance@arkademy.com>', [task.email], `Income Sharing Agreement (Tagihan Tanggal: ${moment().format('DD MMMM YYYY')})`, email)
+                    console.log('record email')
+                    await insertEmailData({
+                        id_email: dataEmail.id_email,
+                        id_billing: idBilling,
+                        to: task.email,
+                        from: 'Finance Arkademy <finance@arkademy.com>',
+                        content: email
                     })
                 }).catch(error => {
                     
