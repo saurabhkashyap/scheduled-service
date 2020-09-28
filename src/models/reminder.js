@@ -95,6 +95,4 @@ const insertEmailData = ({
     })
 }
 
-exp.sentReminder()
-
 module.exports = exp
