@@ -54,12 +54,11 @@ const getDataMaturity = () => {
                 SELECT track.name FROM bootcamp.batch JOIN bootcamp.track USING(id_track) WHERE id_batch = talent.id_batch
             ),
             pay_day,
-            EXTRACT(days FROM age(current_date, billing.billed_on)) AS maturity,
+            EXTRACT(days FROM age(current_date, billing.billed_on)) + 1 AS maturity,
             amount::money::numeric::float8,
-            payment_infomation
+            payment_information
         FROM 
-            finance.billing AS billing JOIN hiring.talent USING(id_talent) WHERE payment_status IS NULL) as billing WHERE maturity = 3 AND maturity = 7 AND maturity = 14 AND maturity = 21
-
+            finance.billing AS billing JOIN hiring.talent USING(id_talent) WHERE payment_status IS NULL) as billing WHERE maturity IN ('3', '7', '14', '21')
         `, [], 'arkademy').then(result => {
             return result.rows
         })
