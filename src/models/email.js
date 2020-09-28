@@ -76,7 +76,7 @@ const emailBilling = ({
             listBank += `<tr>
                 <td>
                 <br>
-                
+
                 <img src="https://email-arkademy.s3-ap-southeast-1.amazonaws.com/logo/permata.png" alt="">
                 </td>
                 <td>
@@ -523,7 +523,9 @@ const emailReminder = ({
 	fullname,
 	list_bank
 }) => {
-  	let listBank = ''
+    let listBank = ''
+    
+    console.log(list_bank)
 
     list_bank.forEach(element => {
         if (element.bank_code === 'BCA') {
