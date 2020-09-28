@@ -67,7 +67,7 @@ const getDataMaturity = () => {
             amount::money::numeric::float8,
             payment_information
         FROM 
-            finance.billing AS billing JOIN hiring.talent USING(id_talent) WHERE payment_status IS NULL) as billing WHERE maturity IN ('3', '7', '14', '21')'
+            finance.billing AS billing JOIN hiring.talent USING(id_talent) WHERE payment_status IS NULL) as billing WHERE maturity IN ('3', '7', '14', '21')
         `, [], 'arkademy').then(result => {
             // console.log(result)
             return resolve(result.rows)
