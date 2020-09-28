@@ -9,6 +9,7 @@ exp.sentReminder = () => {
     return new Promise((resolve, reject) => {
         const getBillingMaturity = getDataMaturity()
         let queue = async.queue((task, cb) => {
+            console.log(task)
             const emailGenerate = emailReminder({
                 fullname: task.realname,
                 list_bank: task.available_banks
