@@ -19,12 +19,14 @@ exp.sentReminder = () => {
 
             if (task.maturity === 3) {
                 subject = 'Reminder 1 - Pembayaran Income Sharing Arkademy'
-            } else if (task.maturity === 7) {
+            } else if (task.maturity === 5) {
                 subject = 'Reminder 2 - Pembayaran Income Sharing Arkademy'
-            } else if (task.maturity === 14) {
+            } else if (task.maturity === 7) {
                 subject = 'Reminder 3 - Pembayaran Income Sharing Arkademy'
-            } else if (task.maturity === 21) {
+            } else if (task.maturity === 14) {
                 subject = 'Reminder 4 - Pembayaran Income Sharing Arkademy'
+            } else if (task.maturity === 21) {
+                subject = 'Reminder 5 - Pembayaran Income Sharing Arkademy'
             }
 
             sent('Arkademy Finance <finance@arkademy.com>', [task.email], subject, emailGenerate).then(async result => {
@@ -67,7 +69,7 @@ const getDataMaturity = () => {
             amount::money::numeric::float8,
             payment_information
         FROM 
-            finance.billing AS billing JOIN hiring.talent USING(id_talent) WHERE payment_status IS NULL) as billing WHERE maturity IN ('3', '7', '14', '21')
+            finance.billing AS billing JOIN hiring.talent USING(id_talent) WHERE payment_status IS NULL) as billing WHERE maturity IN ('3', '5', '7', '14', '21')
         `, [], 'arkademy').then(result => {
             // console.log(result)
             return resolve(result.rows)
