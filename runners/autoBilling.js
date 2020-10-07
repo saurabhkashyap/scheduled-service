@@ -8,6 +8,7 @@ const job = new cron('0 10 25 * *', () => {
 })
 
 const reminder = new cron('0 10 * * *', () => {
+    console.log('RUN REMINDER TODAY')
     sentReminder()
 })
 
