@@ -35,7 +35,7 @@ exp.sentReminder = () => {
                     id_billing: task.external_id,
                     to: task.email,
                     from: 'Finance Arkademy <finance@arkademy.com>',
-                    content: task.email
+                    content: emailGenerate
                 })
             }).catch(error => {
                 console.log(error)
