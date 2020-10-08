@@ -1,5 +1,5 @@
 const { runSentBillingToday } = require('../src/models/billing');
-const { sentReminder } = require('../src/models/reminder');
+const { sentReminder, sentReminderBeforeBilling } = require('../src/models/reminder');
 
 const cron = require('cron').CronJob;
 
@@ -11,7 +11,12 @@ const reminder = new cron('0 10 * * *', () => {
     sentReminder()
 })
 
+const reminderBeforeBilling = new cron('0 10 23 * *', () => {
+    sentReminderBeforeBilling()
+})
+
 module.exports = {
     job,
-    reminder
+    reminder,
+    reminderBeforeBilling
 }
