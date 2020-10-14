@@ -1,5 +1,5 @@
 const { query } = require("../helpers/databases/postgresql")
-const { emailReminder } = require("./email")
+const { emailReminder, emailReminderBeforeBilling } = require("./email")
 const async = require('async')
 const { sent } = require("../helpers/email")
 
@@ -60,7 +60,22 @@ exp.sentReminderBeforeBilling = () => {
         })
 
         let q = async.queue((task) => {
-            
+            const email = emailReminderBeforeBilling({
+                fullname: task.realname
+            })
+
+            sent('Arkademy Finance <finance@arkademy.com>', [task.email], subject, email).then(async result => {
+                await insertEmailData({
+                    id_email: result.id_email,
+                    id_billing: task.external_id,
+                    to: task.email,
+                    from: 'Finance Arkademy <finance@arkademy.com>',
+                    content: email
+                })
+            }).catch(error => {
+                console.log(error)
+                // cb()
+            })
         })
 
         q.drain(() => {
