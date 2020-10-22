@@ -1,5 +1,5 @@
 const { query } = require("../helpers/databases/postgresql")
-const { emailReminder } = require("./email")
+const { emailReminder, emailReminderBeforeBilling } = require("./email")
 const async = require('async')
 const { sent } = require("../helpers/email")
 
@@ -19,12 +19,14 @@ exp.sentReminder = () => {
 
             if (task.maturity === 3) {
                 subject = 'Reminder 1 - Pembayaran Income Sharing Arkademy'
-            } else if (task.maturity === 7) {
+            } else if (task.maturity === 5) {
                 subject = 'Reminder 2 - Pembayaran Income Sharing Arkademy'
-            } else if (task.maturity === 14) {
+            } else if (task.maturity === 7) {
                 subject = 'Reminder 3 - Pembayaran Income Sharing Arkademy'
-            } else if (task.maturity === 21) {
+            } else if (task.maturity === 14) {
                 subject = 'Reminder 4 - Pembayaran Income Sharing Arkademy'
+            } else if (task.maturity === 21) {
+                subject = 'Reminder 5 - Pembayaran Income Sharing Arkademy'
             }
 
             sent('Arkademy Finance <finance@arkademy.com>', [task.email], subject, emailGenerate).then(async result => {
@@ -49,6 +51,41 @@ exp.sentReminder = () => {
     })
 }
 
+exp.sentReminderBeforeBilling = () => {
+    return new Promise((resolve, reject) => {
+        const dataTalent = await query(`SELECT * FROM (SELECT *, (SELECT batch FROM bootcamp.batch WHERE id_batch = talent.id_batch) AS real_batch FROM hiring.talent WHERE  status_talent = 'work' AND status_payment IN ('active', 'paycut', 'pending')) AS data WHERE real_batch IN ('8', '9', '10', '11', '12')`, [], 'arkademy').then(result => {
+            return result.rows
+        }).catch(error => {
+            return reject(error)
+        })
+
+        let q = async.queue((task) => {
+            const email = emailReminderBeforeBilling({
+                fullname: task.realname
+            })
+
+            sent('Arkademy Finance <finance@arkademy.com>', [task.email], subject, email).then(async result => {
+                await insertEmailData({
+                    id_email: result.id_email,
+                    id_billing: task.external_id,
+                    to: task.email,
+                    from: 'Finance Arkademy <finance@arkademy.com>',
+                    content: email
+                })
+            }).catch(error => {
+                console.log(error)
+                // cb()s
+            })
+        }, 5)
+
+        q.drain(() => {
+            return resolve()
+        })
+
+        q.push(dataTalent)
+    })
+}
+
 const getDataMaturity = () => {
     return new Promise((resolve, reject) => {
         query(`
@@ -67,7 +104,7 @@ const getDataMaturity = () => {
             amount::money::numeric::float8,
             payment_information
         FROM 
-            finance.billing AS billing JOIN hiring.talent USING(id_talent) WHERE payment_status IS NULL) as billing WHERE maturity IN ('3', '7', '14', '21')
+            finance.billing AS billing JOIN hiring.talent USING(id_talent) WHERE payment_status IS NULL) as billing WHERE maturity IN ('3', '5', '7', '14', '21')
         `, [], 'arkademy').then(result => {
             // console.log(result)
             return resolve(result.rows)
