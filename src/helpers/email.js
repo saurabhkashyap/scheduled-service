@@ -1,7 +1,6 @@
 const exp = {}
 
 const request = require('request')
-const { ClientBase } = require('pg')
 require('dotenv').config()
 
 exp.sent = (from, to, subject, content) => {

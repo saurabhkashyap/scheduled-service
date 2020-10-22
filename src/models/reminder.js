@@ -53,7 +53,7 @@ exp.sentReminder = () => {
 
 exp.sentReminderBeforeBilling = () => {
     return new Promise((resolve, reject) => {
-        const dataTalent = await query(`SELECT * FROM (SELECT *, (SELECT batch FROM bootcamp.batch WHERE id_batch = talent.id_batch) AS real_batch FROM hiring.talent WHERE  status_talent = 'work' AND status_payment IN ('active', 'paycut')) AS data WHERE real_batch IN ('8', '9', '10', '11', '12')`, [], 'arkademy').then(result => {
+        const dataTalent = await query(`SELECT * FROM (SELECT *, (SELECT batch FROM bootcamp.batch WHERE id_batch = talent.id_batch) AS real_batch FROM hiring.talent WHERE  status_talent = 'work' AND status_payment IN ('active', 'paycut', 'pending')) AS data WHERE real_batch IN ('8', '9', '10', '11', '12')`, [], 'arkademy').then(result => {
             return result.rows
         }).catch(error => {
             return reject(error)
@@ -74,12 +74,12 @@ exp.sentReminderBeforeBilling = () => {
                 })
             }).catch(error => {
                 console.log(error)
-                // cb()
+                // cb()s
             })
         })
 
         q.drain(() => {
-
+            return resolve()
         })
 
         q.push(dataTalent)
