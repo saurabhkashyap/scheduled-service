@@ -76,7 +76,7 @@ exp.sentReminderBeforeBilling = () => {
                 console.log(error)
                 // cb()s
             })
-        })
+        }, 5)
 
         q.drain(() => {
             return resolve()
