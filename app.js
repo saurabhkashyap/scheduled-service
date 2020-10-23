@@ -43,5 +43,6 @@ app.use(function(err, req, res, next) {
 
 runner.job.start()
 runner.reminder.start()
+runner.reminderBeforeBilling.start()
 
 module.exports = app;
