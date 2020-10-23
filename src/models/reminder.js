@@ -60,7 +60,7 @@ exp.sentReminderBeforeBilling = () => {
             return reject(error)
         })
 
-        let q = async.queue((task) => {
+        let q = async.queue((task, cb) => {
             const email = emailReminderBeforeBilling({
                 fullname: task.realname
             })
@@ -72,11 +72,16 @@ exp.sentReminderBeforeBilling = () => {
                     to: task.email,
                     from: 'Finance Arkademy <finance@arkademy.com>',
                     content: email
+                }).then(result => {
+                    cb()
+                    console.log('sent to', task.email)
+                }).catch(error => {
+                    cb()
+                    console.log(error)
                 })
-                console.log('sent to', task.email)
             }).catch(error => {
                 console.log(error)
-                // cb()s
+                cb()
             })
         }, 5)
 
