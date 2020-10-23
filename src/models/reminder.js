@@ -65,7 +65,7 @@ exp.sentReminderBeforeBilling = () => {
                 fullname: task.realname
             })
 
-            sent('Arkademy Finance <finance@arkademy.com>', [task.email], subject, email).then(async result => {
+            sent('Arkademy Finance <finance@arkademy.com>', [task.email], `Reminder - Pembayaran Income Sharing Agreement`, email).then(async result => {
                 await insertEmailData({
                     id_email: result.id_email,
                     id_billing: task.external_id,
