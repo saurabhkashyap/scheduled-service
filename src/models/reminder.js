@@ -73,6 +73,7 @@ exp.sentReminderBeforeBilling = () => {
                     from: 'Finance Arkademy <finance@arkademy.com>',
                     content: email
                 })
+                console.log('sent to', task.email)
             }).catch(error => {
                 console.log(error)
                 // cb()s
