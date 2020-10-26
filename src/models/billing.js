@@ -38,7 +38,6 @@ exp.runSentBillingToday = () => {
                 monthlyBill = await getMonthlyPayCutLastHistory(task.id_talent)
             } else {
                 monthlyBill = await getMonthlyBillByCampDuration(task.id_camp_duration)
-                
             }
 
             console.log(monthlyBill)
@@ -140,7 +139,7 @@ const createInvoice = (id_billing, email_talent, amount, fullname) => {
 const insertDataBillingToInvoice = (id_billing, amount, id_talent, payment_information, billed_on) => {
     return new Promise((resolve, reject) => {
         // console.log([id_billing, amount, id_talent, payment_information])
-        query(`INSERT INTO finance.billing (id_billing, amount, billed_on, id_talent, payment_information) VALUES($1, $2, $3, $4, $5)`, [id_billing, amount, billed_on, id_talent, payment_information], 'arkademy')
+        query(`INSERT INTO finance.billing (id_billing, amount, billed_on, id_talent, payment_information, status) VALUES($1, $2, $3, $4, $5, true)`, [id_billing, amount, billed_on, id_talent, payment_information], 'arkademy')
         .then((result) => {
             if (result.rowCount > 0) {
                 return resolve(null)
