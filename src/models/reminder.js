@@ -56,7 +56,7 @@ exp.sentReminder = () => {
 exp.sentReminderBeforeBilling = () => {
     console.log('REMINDER h-2 auto billing')
     return new Promise(async (resolve, reject) => {
-        const dataTalent = await query(`SELECT * FROM (SELECT *, (SELECT batch FROM bootcamp.batch WHERE id_batch = talent.id_batch) AS real_batch FROM hiring.talent WHERE  status_talent = 'work' AND status_payment IN ('active', 'paycut', 'pending')) AS data WHERE real_batch IN ('8', '9', '10', '11', '12')`, [], 'arkademy').then(result => {
+        const dataTalent = await query(`SELECT * FROM (SELECT *, (SELECT batch FROM bootcamp.batch WHERE id_batch = talent.id_batch) AS real_batch FROM hiring.talent WHERE  status_talent = 'work' AND status_payment IN ('active', 'paycut', 'pending')) AS data WHERE real_batch IN ('8', '9', '10', '11', '12', '13', '14')`, [], 'arkademy').then(result => {
             return result.rows
         }).catch(error => {
             return reject(error)
