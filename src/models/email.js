@@ -525,7 +525,7 @@ const emailReminder = ({
 }) => {
     let listBank = ''
     
-    console.log(list_bank)
+    // console.log(list_bank)
 
     list_bank.forEach(element => {
         if (element.bank_code === 'BCA') {

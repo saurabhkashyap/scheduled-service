@@ -40,7 +40,7 @@ exp.runSentBillingToday = () => {
                 monthlyBill = await getMonthlyBillByCampDuration(task.id_camp_duration)
             }
 
-            console.log(monthlyBill)
+            // console.log(monthlyBill)
 
             let dataInvoice = null
 

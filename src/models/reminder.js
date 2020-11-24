@@ -132,7 +132,7 @@ const insertEmailData = ({
 }) => {
     return new Promise((resolve, reject) => {
         query(`INSERT INTO ark_email.email_billing (id_email, id_billing, receiver, sender, content) VALUES($1, $2, $3, $4, $5)`, [id_email, id_billing, to, from, content], 'arkademy').then(result => {
-            console.log(result.rowCount)
+            // console.log(result.rowCount)
             return resolve()
         }).catch(err => {
             console.log(err)
